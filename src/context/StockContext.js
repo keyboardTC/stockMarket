@@ -7,11 +7,9 @@ export const StockProvider = ({ children }) => {
     const [stock, setStock] = useState({});
 
     const addStock = (newStock) => {
+        console.log("CONTEXT RECEIVED STOCK:", newStock)
         setStock(newStock)
     }
-    // const getStock = (newStock) => {
-    //     setStock(newStock)
-    // }
 
     const value = {
         stock, addStock
