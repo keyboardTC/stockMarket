@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the TextInput component 1`] = `
+<TextInput
+  autoCorrect={false}
+  value="apple banana kiwi"
+/>
+`;
