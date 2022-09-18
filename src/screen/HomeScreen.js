@@ -1,14 +1,11 @@
 import {
     ScrollView,
-    StatusBar,
     StyleSheet,
     Text,
-    useColorScheme,
     View,
     TextInput,
     Button,
 } from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import React, { useState, useEffect, useContext } from 'react';
 import dayjs from 'dayjs';
 
@@ -18,20 +15,16 @@ import StockContext from '../context/StockContext';
 import RNText from '../components/RNText';
 
 const HomeScreen = () => {
-    const isDarkMode = useColorScheme() === 'dark';
-
     // Instance of StockContext
     const stock = useContext(StockContext);
 
     // MARK: state Variables
     const [inputStockSymbol, setInputStockSymbol] = useState('');
     const [inputTimeWindow, setInputTimeWindow] = useState('');
-    const [isEmpty, setisEmpty] = useState(false);
+    const [isEmpty, setIsEmpty] = useState(false);
     const [mediaCount, setMediaCount] = useState(0);
     const [dateStatus, setDateStatus] = useState({ buyDate: undefined, sellDate: undefined, sellDayIndex: 0, buyDayIndex: 0 });
-    const backgroundStyle = {
-        backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-    };
+
 
     // MARK: UseEffect Method
     useEffect(() => {
@@ -49,22 +42,17 @@ const HomeScreen = () => {
             setMediaCount(socialMediaCount(stackOdj));
             console.log('CONTEXT STOCK ', stock.stock);
             console.log("Search pressed : ", dayjs().format('DD/MM/YYYY'));
-            setisEmpty(false)
+            setIsEmpty(false)
         } else {
-            setisEmpty(true)
+            setIsEmpty(true)
         }
     }
 
     return (
         <>
-            <StatusBar
-                barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-                backgroundColor={backgroundStyle.backgroundColor}
-            />
-
             <Header text="Stock Market Recommender" style={{ backgroundColor: 'green' }} textStyle={{ color: 'white' }} />
             <View>
-                <View style={[{ padding: 20 }]}>
+                <View style={{ padding: 20 }}>
                     <View>
                         <TextInput
                             style={styles.input}
@@ -93,7 +81,7 @@ const HomeScreen = () => {
                 </View>
                 <ScrollView
                     contentInsetAdjustmentBehavior="automatic"
-                    style={[backgroundStyle, { paddingHorizontal: 20, paddingVertical: 10 }]}
+                    style={{ paddingHorizontal: 20, paddingVertical: 10 }}
                 >
                     <View style={{}}>
                         <View style={{ backgroundColor: '#d7e0da', justifyContent: 'center', alignItems: 'center', paddingVertical: 10, borderBottomWidth: 1 }}>
@@ -116,7 +104,7 @@ const HomeScreen = () => {
                                         </View>
                                         <View style={{ marginVertical: 5 }} />
                                         <View style={{ flexDirection: 'row' }}>
-                                            <RNText style={[styles.h2]}>Social Media Count:</RNText>
+                                            <RNText style={styles.h2}>Social Media Count:</RNText>
                                             <RNText style={{ marginHorizontal: 5, fontSize: 18, }}>{mediaCount}</RNText>
                                         </View>
                                     </View>
@@ -141,8 +129,6 @@ const HomeScreen = () => {
         </>
     );
 };
-
-export default HomeScreen
 
 const styles = StyleSheet.create({
     input: {
@@ -175,3 +161,5 @@ const styles = StyleSheet.create({
         backgroundColor: '#f7c5c5',
     }
 });
+
+export default HomeScreen;

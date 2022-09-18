@@ -1,0 +1,209 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+Array [
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "pink",
+          "justifyContent": "center",
+        },
+        Object {
+          "backgroundColor": "green",
+        },
+      ]
+    }
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "fontSize": 28,
+            "fontWeight": "bold",
+            "marginHorizontal": 20,
+            "marginVertical": 10,
+          },
+          Object {
+            "color": "white",
+          },
+        ]
+      }
+    >
+      Stock Market Recommender
+    </Text>
+  </View>,
+  <View>
+    <View
+      style={
+        Object {
+          "padding": 20,
+        }
+      }
+    >
+      <View>
+        <TextInput
+          onChangeText={[Function]}
+          placeholder="Enter Stock Symbol (e.g x)"
+          style={
+            Object {
+              "borderRadius": 38,
+              "borderWidth": 1,
+              "height": 40,
+              "margin": 12,
+              "padding": 10,
+            }
+          }
+          value=""
+        />
+      </View>
+      <View>
+        <TextInput
+          keyboardType="numeric"
+          onChangeText={[Function]}
+          placeholder="Enter Time Window (e.g x)"
+          style={
+            Object {
+              "borderRadius": 38,
+              "borderWidth": 1,
+              "height": 40,
+              "margin": 12,
+              "padding": 10,
+            }
+          }
+          value={0}
+        />
+      </View>
+      <View
+        style={
+          Object {
+            "marginHorizontal": 20,
+            "marginTop": 10,
+          }
+        }
+      >
+        <View
+          accessibilityLabel="Learn more about this purple button"
+          accessibilityRole="button"
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+        >
+          <View
+            style={
+              Array [
+                Object {},
+              ]
+            }
+          >
+            <Text
+              style={
+                Array [
+                  Object {
+                    "color": "#007AFF",
+                    "fontSize": 18,
+                    "margin": 8,
+                    "textAlign": "center",
+                  },
+                  Object {
+                    "color": "green",
+                  },
+                ]
+              }
+            >
+              Search
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+    <RCTScrollView
+      contentInsetAdjustmentBehavior="automatic"
+      style={
+        Object {
+          "paddingHorizontal": 20,
+          "paddingVertical": 10,
+        }
+      }
+    >
+      <View>
+        <View
+          style={Object {}}
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#d7e0da",
+                "borderBottomWidth": 1,
+                "justifyContent": "center",
+                "paddingVertical": 10,
+              }
+            }
+          >
+            <Text
+              style={
+                Array [
+                  Object {
+                    "color": "black",
+                    "fontSize": 16,
+                    "marginVertical": 5,
+                  },
+                  Object {
+                    "color": "black",
+                    "fontSize": 18,
+                    "fontWeight": "bold",
+                  },
+                ]
+              }
+            >
+              Stock 
+               Ratings
+            </Text>
+          </View>
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+              }
+            }
+          >
+            <Text
+              style={
+                Array [
+                  Object {
+                    "color": "black",
+                    "fontSize": 16,
+                    "marginVertical": 5,
+                  },
+                  Object {
+                    "fontSize": 28,
+                    "fontWeight": "bold",
+                    "marginHorizontal": 20,
+                    "marginVertical": 10,
+                  },
+                ]
+              }
+            >
+              EMPTY
+            </Text>
+          </View>
+        </View>
+      </View>
+    </RCTScrollView>
+  </View>,
+]
+`;
