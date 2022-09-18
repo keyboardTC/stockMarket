@@ -12,6 +12,7 @@ export default RNText
 const styles = StyleSheet.create({
     text: {
         fontSize: 16,
-        color: 'black'
+        color: 'black',
+        marginVertical: 5,
     }
 })

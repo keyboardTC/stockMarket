@@ -12,8 +12,8 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import React, { useState, useEffect, useContext } from 'react';
 import dayjs from 'dayjs';
 
-import Header from '../components/Header'
-import { generateStock, prediction } from '../controllers/StockController';
+import Header from '../components/Header';
+import { generateStock, prediction, socialMediaCount } from '../controllers/StockController';
 import StockContext from '../context/StockContext';
 import RNText from '../components/RNText';
 
@@ -21,11 +21,13 @@ const HomeScreen = () => {
     const isDarkMode = useColorScheme() === 'dark';
 
     // Instance of StockContext
-    const stock = useContext(StockContext)
+    const stock = useContext(StockContext);
 
     // MARK: state Variables
     const [inputStockSymbol, setInputStockSymbol] = useState('');
     const [inputTimeWindow, setInputTimeWindow] = useState('');
+    const [isEmpty, setisEmpty] = useState(false);
+    const [mediaCount, setMediaCount] = useState(0);
     const [dateStatus, setDateStatus] = useState({ buyDate: undefined, sellDate: undefined, sellDayIndex: 0, buyDayIndex: 0 });
     const backgroundStyle = {
         backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -33,33 +35,25 @@ const HomeScreen = () => {
 
     // MARK: UseEffect Method
     useEffect(() => {
-        setInputTimeWindow(Math.floor(inputTimeWindow))
+        setInputTimeWindow(Math.floor(inputTimeWindow));
         console.log('Time Window ', inputTimeWindow);
 
     }, [inputTimeWindow]);
 
     // MARK: Search Botton Action
     const onPressSearch = () => {
-        const stackOdj = generateStock(5, 'x');
-        stock.addStock(stackOdj);
-        setDateStatus(prediction(stackOdj))
-        // prediction(stackOdj);
-        // genStock();
-        console.log('CONTEXT STOCK ', stock.stock);
-        console.log("Search pressed : ", dayjs().format('DD/MM/YYYY'))
+        const stackOdj = generateStock(inputTimeWindow, inputStockSymbol);
+        if (stackOdj) {
+            stock.addStock(stackOdj);
+            setDateStatus(prediction(stackOdj));
+            setMediaCount(socialMediaCount(stackOdj));
+            console.log('CONTEXT STOCK ', stock.stock);
+            console.log("Search pressed : ", dayjs().format('DD/MM/YYYY'));
+            setisEmpty(false)
+        } else {
+            setisEmpty(true)
+        }
     }
-
-    // const genStock = async () => {
-    //     try {
-    //         await generateStock(5, 'x')
-    //             .then((stackOdj) => {
-    //                 stock.addStock(stackOdj);
-    //                 setDateStatus(prediction(stackOdj))
-    //             })
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
 
     return (
         <>
@@ -88,7 +82,7 @@ const HomeScreen = () => {
                             keyboardType="numeric"
                         />
                     </View>
-                    <View style={{ marginHorizontal: 20 }}>
+                    <View style={{ marginHorizontal: 20, marginTop: 10 }}>
                         <Button
                             onPress={() => onPressSearch()}
                             title="Search"
@@ -99,41 +93,40 @@ const HomeScreen = () => {
                 </View>
                 <ScrollView
                     contentInsetAdjustmentBehavior="automatic"
-                    style={[backgroundStyle, { padding: 20 }]}
+                    style={[backgroundStyle, { paddingHorizontal: 20, paddingVertical: 10 }]}
                 >
                     <View style={{}}>
-                        <View style={{ backgroundColor: 'pink', justifyContent: 'center', alignItems: 'center', paddingVertical: 10, borderBottomWidth: 1 }}>
+                        <View style={{ backgroundColor: '#d7e0da', justifyContent: 'center', alignItems: 'center', paddingVertical: 10, borderBottomWidth: 1 }}>
                             <RNText style={{
                                 fontWeight: 'bold',
                                 fontSize: 18,
                                 color: 'black'
-                            }}>Stock X Ratings</RNText>
+                            }}>Stock {inputStockSymbol} Ratings</RNText>
                         </View>
                         <View style={{ alignItems: 'center', }}>
-                            {stock.stock?.interval ?
+                            {stock.stock?.interval && !isEmpty ?
                                 <>
                                     <View style={{ marginVertical: 20, }}>
-                                        <RNText style={{
-                                            fontWeight: 'bold',
-                                            fontSize: 16,
-                                            color: 'black',
-                                        }}>Time Window</RNText>
+                                        <RNText style={styles.h2}>Time Window</RNText>
                                         <View style={{ marginVertical: 5 }} />
                                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                             <RNText>Start Date: {stock.stock?.interval[0].day}</RNText>
                                             <View style={{ marginHorizontal: 20 }}></View>
                                             <RNText>End Date: {stock.stock?.interval[stock.stock.interval.length - 1].day}</RNText>
                                         </View>
-
-
+                                        <View style={{ marginVertical: 5 }} />
+                                        <View style={{ flexDirection: 'row' }}>
+                                            <RNText style={[styles.h2]}>Social Media Count:</RNText>
+                                            <RNText style={{ marginHorizontal: 5, fontSize: 18, }}>{mediaCount}</RNText>
+                                        </View>
                                     </View>
-                                    <View style={{ backgroundColor: '#ccc', paddingHorizontal: 30, paddingVertical: 5, marginVertical: 5 }}>
-                                        <RNText>Buy on Day: <RNText>{dateStatus.buyDate}</RNText></RNText>
-                                        <RNText>Price: {stock.stock?.interval[dateStatus.buyDayIndex].price}</RNText>
+                                    <View style={[styles.rateBox, styles.buy]}>
+                                        <RNText style={[styles.h2]}>Buy on : <RNText>{dateStatus.buyDate}</RNText></RNText>
+                                        <RNText style={[styles.h2]}>Price: ${stock.stock?.interval[dateStatus.buyDayIndex].price}</RNText>
                                     </View>
-                                    <View style={{ backgroundColor: '#ccc', paddingHorizontal: 30, paddingVertical: 5, marginVertical: 5 }}>
-                                        <RNText>Sell on Day: <Text>{dateStatus.sellDate}</Text></RNText>
-                                        <RNText>Price: {stock.stock?.interval[dateStatus.sellDayIndex].price}</RNText>
+                                    <View style={[styles.rateBox, styles.sell]}>
+                                        <RNText style={[styles.h2]}>Sell on : <Text>{dateStatus.sellDate}</Text></RNText>
+                                        <RNText style={[styles.h2]}>Price: ${stock.stock?.interval[dateStatus.sellDayIndex].price}</RNText>
                                     </View>
                                 </>
                                 :
@@ -165,5 +158,20 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         marginHorizontal: 20
     },
-
-})
+    rateBox: {
+        paddingHorizontal: 30,
+        paddingVertical: 5,
+        marginVertical: 5
+    },
+    h2: {
+        fontWeight: 'bold',
+        fontSize: 16,
+        color: 'black',
+    },
+    buy: {
+        backgroundColor: '#d7e0da',
+    },
+    sell: {
+        backgroundColor: '#f7c5c5',
+    }
+});
